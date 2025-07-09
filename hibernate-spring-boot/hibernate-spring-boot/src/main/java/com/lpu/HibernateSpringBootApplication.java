@@ -9,7 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.lpu.algo.MyPasswordAlgo;
+import com.lpu.algo.MyService;
 import com.lpu.algo.PasswordHasher;
+import com.lpu.lib.dao.StudentRepository;
+import com.lpu.lib.service.BookService;
+import com.lpu.lib.service.BookServiceImpl;
 import com.lpu.model.Department;
 import com.lpu.model.Employee;
 import com.lpu.model.Faculty;
@@ -32,8 +36,8 @@ public class HibernateSpringBootApplication {
 		String rev = algo.encrypt("ThisPass@34");
 		System.out.println(rev);
 		
-		PasswordHasher bean = context.getBean(PasswordHasher.class);
-		System.out.println(bean);
+//		PasswordHasher bean = context.getBean(PasswordHasher.class);
+//		System.out.println(bean);
 		
 		Object bean2 = context.getBean("myXmlBeanSimple");
 		System.out.println("xml bean : " + bean2);
@@ -47,7 +51,22 @@ public class HibernateSpringBootApplication {
 				System.out.println(beanName);
 
 		}
+		MyService myService = context.getBean(MyService.class);
+		myService.show();
+//		testBookService(context);
+		testStudentRepo(context);
 
+	}
+	public static void testStudentRepo(ConfigurableApplicationContext context)
+	{
+		StudentRepository sRepo = context.getBean(StudentRepository.class);
+		sRepo.findAll().forEach(System.out::println);
+	}
+	public static void testBookService(ConfigurableApplicationContext context)
+	{
+		BookService bean = context.getBean(BookService.class);
+		BookService service = new BookServiceImpl(); 
+		bean.findByAuthor("Herebert Schildt").forEach(System.out::println);
 	}
 	public static void testCustomQuery(ConfigurableApplicationContext context)
 	{

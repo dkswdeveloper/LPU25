@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Primary
 public class MySimplePasswordHasher implements PasswordHasher{
+	
 
 	@Override
 	public String hash(String password) {

@@ -16,7 +16,7 @@ public class MyBeansConfiguration {
 	@Bean
 	PasswordHasher nextPassswordHasher()
 	{
-		return new MyNextPasswordHasher();
+		return new MyNextPasswordHasher(); //if some class not written by you
 	}
 	@Bean 
 	PasswordHasher simplePasswordHasher()
