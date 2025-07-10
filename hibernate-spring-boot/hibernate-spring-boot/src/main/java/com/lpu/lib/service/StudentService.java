@@ -7,5 +7,6 @@ import jakarta.transaction.Transactional;
 public interface StudentService {
 
 	Student add(Student student);
+	Student findById(int roll);
 
 }

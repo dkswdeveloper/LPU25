@@ -32,11 +32,7 @@ import jakarta.persistence.Query;
 @SpringBootApplication
 public class HibernateSpringBootApplication {
 	private static final Logger log = LoggerFactory.getLogger(HibernateSpringBootApplication.class);
-//	private static final Logger log = LoggerFactory.getLogger("");
-
 	public static void main(String[] args) {
-		
-		
 		ConfigurableApplicationContext context = SpringApplication.run(HibernateSpringBootApplication.class, args);
 		MyPasswordAlgo algo = context.getBean(MyPasswordAlgo.class);
 		String rev = algo.encrypt("ThisPass@34");

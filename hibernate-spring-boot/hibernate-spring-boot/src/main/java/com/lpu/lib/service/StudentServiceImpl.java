@@ -15,7 +15,7 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	StudentRepository sRepo;
 	
-	Student findById(int roll) {
+	public Student findById(int roll) {
 		Optional<Student> optStudent = sRepo.findById(roll);
 		return optStudent.orElse(null);
 	}
