@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -29,13 +31,21 @@ import jakarta.persistence.Query;
 
 @SpringBootApplication
 public class HibernateSpringBootApplication {
+	private static final Logger log = LoggerFactory.getLogger(HibernateSpringBootApplication.class);
+//	private static final Logger log = LoggerFactory.getLogger("");
 
 	public static void main(String[] args) {
+		
+		
 		ConfigurableApplicationContext context = SpringApplication.run(HibernateSpringBootApplication.class, args);
 		MyPasswordAlgo algo = context.getBean(MyPasswordAlgo.class);
 		String rev = algo.encrypt("ThisPass@34");
 		System.out.println(rev);
-		
+		log.trace("in loop value of a variable");
+		log.debug("this method was called with value 5");
+		log.info("application started");
+		log.warn("Current Version not supported");
+		log.error("complete details of exception");
 //		PasswordHasher bean = context.getBean(PasswordHasher.class);
 //		System.out.println(bean);
 		
@@ -54,7 +64,7 @@ public class HibernateSpringBootApplication {
 		MyService myService = context.getBean(MyService.class);
 		myService.show();
 //		testBookService(context);
-		testStudentRepo(context);
+//		testStudentRepo(context);
 
 	}
 	public static void testStudentRepo(ConfigurableApplicationContext context)
