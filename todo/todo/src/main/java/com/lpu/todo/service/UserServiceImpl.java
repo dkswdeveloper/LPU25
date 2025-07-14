@@ -43,5 +43,19 @@ public class UserServiceImpl implements UserService  {
 		userRepo.save(user);
 		return user;
 	}
+	@Override
+	@Transactional
+	public boolean checkLogin(String username, String password) {
+		Optional<User> opt = userRepo.findById(username);
+		if(opt.isPresent())
+		{
+			String passInDb = opt.get().getPassword();
+			if(passInDb.equals(password))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 }
