@@ -13,13 +13,13 @@ import com.lpu.todo.repo.UserRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-
 public class UserServiceImpl implements UserService  {
 	private static final Logger log =LoggerFactory.getLogger(UserServiceImpl.class);
 	@Autowired
 	UserRepository userRepo;
 	
 	@Override
+	@Transactional
 	public User findByUsername(String username)
 	{
 		log.debug("findByUsername called searching for "+ username);

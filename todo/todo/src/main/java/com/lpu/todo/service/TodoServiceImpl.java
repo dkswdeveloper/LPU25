@@ -1,13 +1,15 @@
 package com.lpu.todo.service;
 
-import java.beans.Transient;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lpu.todo.model.ToDo;
+import com.lpu.todo.model.User;
 import com.lpu.todo.repo.ToDoRepository;
+import com.lpu.todo.repo.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -15,6 +17,9 @@ import jakarta.transaction.Transactional;
 public class TodoServiceImpl implements ToDoService {
 	@Autowired
 	ToDoRepository todoRepo;
+	
+	@Autowired
+	UserRepository userRepo;
 
 	@Transactional
 	public List<ToDo> findAllByUsername(String usernmae)
@@ -23,8 +28,14 @@ public class TodoServiceImpl implements ToDoService {
 	}
 	@Override
 	@Transactional
-	public ToDo addToDo(ToDo toDo)
+	public ToDo addToDo(String username, ToDo toDo)
 	{
+		Optional<User> opt = userRepo.findById(username);
+		if(opt.isEmpty()) { // no user with this name exists
+			return null;
+		}
+		User user =opt.get();
+		toDo.setUser(user);
 		ToDo saved = todoRepo.save(toDo);
 		return saved;
 	}

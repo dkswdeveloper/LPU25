@@ -8,7 +8,7 @@ import jakarta.transaction.Transactional;
 
 public interface ToDoService {
 
-	ToDo addToDo(ToDo toDo);
+	ToDo addToDo(String  username, ToDo toDo);
 
 	ToDo UpdateToDo(ToDo toDo);
 	public List<ToDo> findAllByUsername(String usernmae);
