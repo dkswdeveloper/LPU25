@@ -1,5 +1,6 @@
 package com.lpu.todo.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import com.lpu.todo.model.ToDo;
 import com.lpu.todo.service.ToDoService;
 import com.lpu.todo.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class HomeController {
 	@Autowired
@@ -26,9 +30,15 @@ public class HomeController {
 	}
 	@PostMapping("/login")
 	public String loginPage(@RequestParam("username") String username, 
-			@RequestParam("password") String password, ModelMap map)
+			@RequestParam("password") String password, ModelMap map, 
+			HttpServletRequest request)
 	{	if(userService.checkLogin(username, password))
 		{
+			HttpSession session = request.getSession();
+			session.setAttribute("username", username);
+			session.setAttribute("logintime",  new Date());
+			session.setAttribute("ipaddress", request.getRemoteAddr());
+			
 			List<ToDo> list = todoService.findAllByUsername(username);
 			map.put("list",  list);
 			map.put("username",  username);

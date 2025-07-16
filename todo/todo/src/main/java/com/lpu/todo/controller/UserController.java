@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.lpu.todo.model.User;
 import com.lpu.todo.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 
 //@Controller
@@ -53,8 +55,13 @@ public class UserController {
 		return userService.findByUsername(username); //returns name of view 
 	}
 	@GetMapping("/qualification" )
-	public String saveQualification(@RequestParam Map<String, String> map)
+	
+	public String saveQualification(@RequestParam Map<String, String> map,
+			HttpServletRequest request, HttpSession session, 
+			@SessionAttribute String username)
 	{
+		request.getSession().getAttribute("username");
+		
 		log.debug("{}", map);
 		return "qualification saved";
 	}
