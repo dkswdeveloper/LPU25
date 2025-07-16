@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="/api/qualification" method="get">
+        matric <input type="number" name="matric" id=""><br>
+        12th <input type="number(5,2)" name="12th" id="">
+        CGPA <input type="number(5,2)" name="cgpa" id="">
+        <div id="certs">
+            <p>Any other certifications <button onclick="add()">Add</button> </p>
+        </div>
+        <input type="submit" value="Submit Qualification">
+        <script>
+            var count = 1;
+            function add() {
+                event.preventDefault();
+                var el = document.getElementById('certs');
+                let id = "c" + count++;
+                var inputEl = document.createElement("input");
+                inputEl.type = "text";
+                inputEl.id = id;
+                inputEl.name = id;
+                el.appendChild(inputEl);
+            }
+
+        </script>
+
+
+    </form>
+</body>
+
+</html>

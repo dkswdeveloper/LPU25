@@ -1,5 +1,7 @@
 package com.lpu.todo.service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -11,6 +13,23 @@ import com.lpu.todo.model.User;
 import com.lpu.todo.repo.UserRepository;
 
 import jakarta.transaction.Transactional;
+/*
+ * GET : CLICK ON URL, default form submission , browser type url enter 
+ * request param : visible url NOT FOR USERID AND PASSWORD
+ * POST : NOT LIMIT ON DATA, ALL REQUEST PARAM not in URL, SEND THE BODY 
+ * DATA : FORM-DATA, ENDCODE, MULTIPART FORM DATA, JSON, XML TEXT , RequestBody 
+ * 
+ * URL ? 
+ * METHOD
+ * HEADER
+ * AUTHORIZATION
+ * COOKIES
+ * BODY (not in get)
+ * 
+ * 
+ */
+
+
 
 @Service
 public class UserServiceImpl implements UserService  {
@@ -56,6 +75,41 @@ public class UserServiceImpl implements UserService  {
 			}
 		}
 		return false;
+	}
+	@Override
+	@Transactional
+	public List<User> findAll() {
+		
+		return userRepo.findAll();
+	}
+	@Override
+	@Transactional
+	public boolean remove(User user) {
+		if(userRepo.findById(user.getUsername()).isPresent())
+		{
+			userRepo.deleteById(user.getUsername());
+			return true;
+		}
+		return false;
+	}
+	@Override
+	@Transactional
+	public User updateUser(User user) {
+		if(userRepo.findById(user.getUsername()).isPresent())
+		{
+			// if user is transient 
+			userRepo.save(user);
+			return user;
+		}
+		return null;
+	}
+	@Override
+	public User patchUser(Map<String, String> map) {
+		User user= userRepo.findById(map.get("username")).get();
+		
+		if(map.containsKey("enabled")) user.setEnabled(Boolean.valueOf(map.get("enabled")));
+		if(map.containsKey("password")) user.setPassword(map.get("password")) ;
+		return user;
 	}
 
 }
