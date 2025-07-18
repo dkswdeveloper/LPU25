@@ -34,6 +34,14 @@ public class SecurityConfig {
 	@Autowired
 	private DataSource dataSource;
 	
+	@Autowired
+	CustomAuthenticationFailureHandler failureHandler;
+	@Autowired
+	CustomAuthenticationSuccessHandler successHandler;
+	
+	@Autowired
+	CustomLogoutSuccessHandler logoutHandler;
+	
 	@Bean
 	JdbcUserDetailsManager users() {
 		JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
@@ -48,15 +56,21 @@ public class SecurityConfig {
 		.authorizeHttpRequests(auth ->
 		auth
 		.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-		.requestMatchers("/", "/user", "/register").permitAll()
+		.requestMatchers("/", "/user", "/register", "/login", "/api/current-user").permitAll()
 		.requestMatchers("/admin/**").hasRole("ADMIN")
 		.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER")
 		.anyRequest().authenticated()	) 
 
 		.userDetailsService(users())
-		.formLogin((form) -> form.permitAll().defaultSuccessUrl("/"))
-		.logout((logout) -> logout.permitAll())
-		.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+		.formLogin((form) -> form.loginPage("/login").permitAll()
+				.successHandler(successHandler)
+//				.defaultSuccessUrl("/")
+				.failureHandler(failureHandler)
+				)
+				.logout((logout) -> logout.permitAll()
+						.logoutSuccessHandler(logoutHandler)
+						)
+		.cors(cors -> cors.configurationSource(corsConfigurationSource()))	;
 		return http.build();
 	}
 

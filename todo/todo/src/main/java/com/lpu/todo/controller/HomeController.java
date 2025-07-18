@@ -63,6 +63,11 @@ public class HomeController {
 	public String register() {
 		return "register.html";
 	}
+	@GetMapping("/login")
+	public String showLoginPage()
+	{
+		return "redirect:/";
+	}
 	
 	
 

@@ -50,13 +50,6 @@ public class UserController {
 	@GetMapping(path="/user", produces="application/json")
 	public User getUser(@RequestParam("username") String username, HttpServletRequest request)
 	{
-//		Enumeration<String> headerNames = request.getHeaderNames();
-//		while(headerNames.hasMoreElements())
-//		{
-//			String headerName = headerNames.nextElement();
-//			String headerValue = request.getHeader(headerName);
-//			System.out.println(headerName + ": " + headerValue);
-//		}
 		return userService.findByUsername(username); //returns name of view 
 	}
 	@GetMapping("/qualification" )
@@ -130,8 +123,12 @@ public class UserController {
 	}
 	@GetMapping("/current-user")
 	public String getMethodName(Authentication auth) {
-		User user = (User) auth.getPrincipal();
-		return user.getUsername();
+		if(auth != null && auth.isAuthenticated())
+		{
+			org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
+			return user.getUsername();
+		}
+		return "NO User";
 	}
 	
 
