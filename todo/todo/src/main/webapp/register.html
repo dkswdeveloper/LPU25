@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h4> Registration</h4>
+<input type="text" name="username" id="username" placeholder="username"/>
+<input type="password" name="password" id="password" placeholder="password"/>
+<button onclick="submit()" >submit </button>
+<div id="message"></div>
+<script>
+	function submit()
+	{
+		var n = document.getElementById("username").value;
+		var p = document.getElementById("password").value;
+		var u = { "username" : n, "password" : p, enabled : true}
+		fetch("/api/user-create", { 
+			method: "post",
+			headers: {
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json'
+		    },
+			body : JSON.stringify(u)
+		})
+		.then(res => res.text())
+		// .then(res => res.json())
+		.then(res => {console.log(res); document.getElementById("message").innerHTML = res; } )
+	}
+</script>
+</body>
+</html>

@@ -8,16 +8,7 @@
 </head>
 <body>
 	<h2>ToDo Home page</h2>
-	<div>
-	<% String msg = (String) request.getAttribute("msg");
-	if( msg != null) 
-		out.println(msg); 
-	%>
-	</div>
-	<form action="/login" method="post">
-		Username <input type="text" name="username" /> <br> Password <input
-			type="password" name="password" /> <br> <input type="submit"
-			value="Login" />
-	</form>
+	<a href="/mytodo"> My ToDo List</a>
+	
 </body>
 </html>
