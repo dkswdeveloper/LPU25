@@ -53,6 +53,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 		http.csrf(AbstractHttpConfigurer::disable)
+		.cors(cors -> cors.configurationSource(corsConfigurationSource()) )	
 		.authorizeHttpRequests(auth ->
 		auth
 		.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
@@ -62,15 +63,15 @@ public class SecurityConfig {
 		.anyRequest().authenticated()	) 
 
 		.userDetailsService(users())
-		.formLogin((form) -> form.loginPage("/login").permitAll()
+		.formLogin(
+				form -> form.loginPage("/login").permitAll()
 				.successHandler(successHandler)
 //				.defaultSuccessUrl("/")
 				.failureHandler(failureHandler)
 				)
-				.logout((logout) -> logout.permitAll()
+				.logout(logout -> logout.permitAll()
 						.logoutSuccessHandler(logoutHandler)
-						)
-		.cors(cors -> cors.configurationSource(corsConfigurationSource()))	;
+						);
 		return http.build();
 	}
 
@@ -82,12 +83,12 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://your-frontend-domain.com", "*")); // Allowed origins
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5500", "https://your-frontend-domain.com", "*")); // Allowed origins
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allowed methods
 		configuration.setAllowedHeaders(Arrays.asList("*")); // Allowed headers
 		configuration.setAllowCredentials(true); // Allow sending credentials (cookies, HTTP authentication)
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration); // Apply CORS to all paths
+		source.registerCorsConfiguration("/", configuration); // Apply CORS to all paths
 		return source;
 	}
 
