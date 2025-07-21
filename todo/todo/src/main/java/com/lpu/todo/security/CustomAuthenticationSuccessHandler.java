@@ -12,8 +12,10 @@ import com.fasterxml.jackson.databind.ObjectMapper; // For JSON response
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -22,6 +24,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         // Customize your success response here
         Map<String, Object> responseBody = new HashMap<>();
+        log.debug("form data {}", responseBody);
         responseBody.put("message", "Authentication successful!");
         responseBody.put("username", authentication.getName());
         // Add more data as needed, e.g., user roles, token (for JWT)

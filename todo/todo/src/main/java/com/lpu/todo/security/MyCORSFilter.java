@@ -18,13 +18,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
-//@Order(Ordered.HIGHEST_PRECEDENCE)
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
 public class MyCORSFilter implements Filter {
 
 	@Value ("${frontEndServer:*}")
 	String frontEndServer;
+	
+	@Value("${server.port}")
+	String port;
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -38,7 +40,7 @@ public class MyCORSFilter implements Filter {
 		response.setHeader("Access-Control-Max-Age", "3600");
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
 
-		chain.doFilter(req, res);
+		chain.doFilter(req, res); //next Filter to doFilter
 	}
 
 	@Override

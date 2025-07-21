@@ -27,6 +27,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             HttpServletResponse response,
             AuthenticationException exception) throws IOException, ServletException {
     	log.debug("authentication failed");
+    	log.debug("username from request " + request.getParameter("username"));
+    	log.debug("password from request " + request.getParameter("password"));
     	
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
@@ -41,3 +43,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         response.getWriter().write(objectMapper.writeValueAsString(data));
     }
 }
+
+
+
+
